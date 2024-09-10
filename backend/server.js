@@ -4,9 +4,23 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 
+const cors = require('cors');
+
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+
+app.use(cors({
+  origin: 'http://localhost:3000',    // Same as above, front-end URL
+  credentials: true
+}));
+
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',  // Replace with your front-end URL
+    methods: ['GET', 'POST'],         // Allow these HTTP methods
+    credentials: true                 // Allow cookies or other credentials
+  }
+});
 
 const PORT = process.env.PORT || 3001;
 

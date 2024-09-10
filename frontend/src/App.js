@@ -36,6 +36,7 @@ function App() {
         />
         <button onClick={sendMessage}>Send</button>
       </div>
+      <button onClick={() => console.log(messages)}>Log messages</button>
       <ul>
         {messages.map((msg, index) => (
           <li key={index}>{msg}</li>
