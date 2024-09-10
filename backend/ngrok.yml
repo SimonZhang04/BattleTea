@@ -1,0 +1,9 @@
+# ngrok configuration file
+
+authtoken: ${NGROK_AUTHTOKEN} # Replace with your Ngrok auth token from environment variable
+region: us # Choose region: us, eu, au, ap, sa, jp, in
+
+tunnels:
+  socketio:
+    addr: 3001 # Port where your Socket.IO server is running
+    proto: http # Use http for Socket.IO, change to tcp if necessary
