@@ -1,0 +1,17 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"   # Expose backend server port
+    environment:
+      - NODE_ENV=development
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"     # Map port 3000 (React) to port 80 (Nginx)
+    depends_on:
+      - backend
