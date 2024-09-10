@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3001'); // Backend server URL
+const socket = io('http://localhost:3001', {
+  withCredentials: true,
+});
 
 function App() {
   const [message, setMessage] = useState('');
@@ -10,6 +12,7 @@ function App() {
   useEffect(() => {
     // Listen for messages from the server
     socket.on('message', (data) => {
+      console.log('Message received from server:', data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
 
@@ -22,6 +25,7 @@ function App() {
   const sendMessage = () => {
     // Emit the message to the server
     socket.emit('message', message);
+    setMessages((prevMessages) => [...prevMessages, message]);
     setMessage(''); // Clear input after sending
   };
 

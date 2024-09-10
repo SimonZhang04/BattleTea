@@ -33,6 +33,9 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('A user connected');
 
+   // Send a welcome message to the newly connected client
+   socket.emit('message', 'Welcome to the chat!');
+  
   // Handle messages or events
   socket.on('message', (data) => {
     console.log('Message from client:', data);
