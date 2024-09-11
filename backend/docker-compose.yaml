@@ -21,7 +21,7 @@ services:
       - ./ngrok.yml:/ngrok/ngrok.yml  # Mount the ngrok configuration file
     networks:
       - ngrok-network
-
+      
 networks:
   ngrok-network:
     driver: bridge

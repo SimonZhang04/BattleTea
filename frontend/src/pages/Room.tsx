@@ -19,6 +19,7 @@ export default function Room() {
     // Cleanup when component unmounts
     return () => {
       socket.off("message");
+      socket.disconnect();
     };
   }, []);
 
