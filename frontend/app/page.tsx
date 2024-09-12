@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { generateRandomUsername } from "@/lib/utils";
+import Link from "next/link";
 
 export default function HomePage() {
   const [username, setUsername] = useState(generateRandomUsername());
@@ -78,18 +79,20 @@ export default function HomePage() {
               />
             </div>
             <Button
-              className="w-full bg-amber-600 hover:bg-amber-700"
+              className="w-full bg-amber-600 hover:bg-amber-700 mb-4"
               disabled={!username}
             >
               Create Room
             </Button>
-            <Button
-              className="w-full text-gray-500"
-              variant="outline"
-              disabled={!username}
-            >
-              Join Room
-            </Button>
+            <Link href="/room/[id]" as="/room/1">
+              <Button
+                className="w-full text-gray-500"
+                variant="outline"
+                disabled={!username}
+              >
+                Join Room
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
