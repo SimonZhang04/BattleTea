@@ -80,21 +80,15 @@ export default function HomePage() {
             <Button className="w-full bg-amber-600 hover:bg-amber-700 mb-4">
               Create Room
             </Button>
-            <Button
-              className="w-full text-gray-500"
-              variant="outline"
-              disabled={!roomCode}
-            >
-              <Link
-                href={`/room/${roomCode}`}
-                className={`block w-full h-full ${
-                  !roomCode ? "cursor-not-allowed" : ""
-                } ${!roomCode ? "opacity-50" : ""}`}
-                style={{ textDecoration: "none", color: "inherit" }}
+            <Link href={`/room/${roomCode}`}>
+              <Button
+                className="w-full text-gray-500"
+                variant="outline"
+                disabled={!roomCode}
               >
                 Join Room
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
