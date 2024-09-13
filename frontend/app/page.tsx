@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { generateRoomCode } from "@/lib/utils";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState("");
@@ -77,9 +78,11 @@ export default function HomePage() {
                 onChange={(e) => setRoomCode(e.target.value)}
               />
             </div>
-            <Button className="w-full bg-amber-600 hover:bg-amber-700 mb-4">
-              Create Room
-            </Button>
+            <Link href={`/room/${generateRoomCode()}`}>
+              <Button className="w-full bg-amber-600 hover:bg-amber-700 mb-4">
+                Create Room
+              </Button>
+            </Link>
             <Link href={`/room/${roomCode}`}>
               <Button
                 className="w-full text-gray-500"

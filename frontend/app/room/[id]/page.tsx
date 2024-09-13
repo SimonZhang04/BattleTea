@@ -2,7 +2,6 @@
 import { io } from "socket.io-client";
 import { useState } from "react";
 import ChatRoom from "./ChatRoom";
-import styles from "./page.module.css";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,10 +13,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { generateRandomUsername } from "@/lib/utils";
 
 export default function Page() {
   const [showChat, setShowChat] = useState(false);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(generateRandomUsername());
   const pathname = usePathname();
   const roomId = pathname.split("/").pop();
   const socket = io("http://localhost:3001");
@@ -73,7 +73,6 @@ export default function Page() {
             </nav>
           </div>
         </header>
-
         <main className="flex-grow container mx-auto px-4 py-8">
           <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-center text-amber-800">
