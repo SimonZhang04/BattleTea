@@ -11,11 +11,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { generateRandomUsername } from "@/lib/utils";
 import Link from "next/link";
 
 export default function HomePage() {
-  const [username, setUsername] = useState(generateRandomUsername());
+  const [roomCode, setRoomCode] = useState("");
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-amber-100 to-amber-200">
@@ -64,35 +63,38 @@ export default function HomePage() {
           <div className="space-y-4">
             <div>
               <label
-                htmlFor="username"
+                htmlFor="room-code"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Username
+                Room Code
               </label>
               <Input
                 className="text-black"
                 type="text"
-                id="username"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="room-code"
+                placeholder="Enter a room code"
+                value={roomCode}
+                onChange={(e) => setRoomCode(e.target.value)}
               />
             </div>
-            <Button
-              className="w-full bg-amber-600 hover:bg-amber-700 mb-4"
-              disabled={!username}
-            >
+            <Button className="w-full bg-amber-600 hover:bg-amber-700 mb-4">
               Create Room
             </Button>
-            <Link href="/room/[id]" as="/room/1">
-              <Button
-                className="w-full text-gray-500"
-                variant="outline"
-                disabled={!username}
+            <Button
+              className="w-full text-gray-500"
+              variant="outline"
+              disabled={!roomCode}
+            >
+              <Link
+                href={`/room/${roomCode}`}
+                className={`block w-full h-full ${
+                  !roomCode ? "cursor-not-allowed" : ""
+                } ${!roomCode ? "opacity-50" : ""}`}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
                 Join Room
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </main>

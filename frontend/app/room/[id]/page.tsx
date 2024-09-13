@@ -3,17 +3,19 @@ import { io } from "socket.io-client";
 import { useState } from "react";
 import ChatRoom from "./ChatRoom";
 import styles from "./page.module.css";
+import { usePathname } from "next/navigation";
 
-export default function Home() {
+export default function Page() {
   const [showChat, setShowChat] = useState(false);
   const [userName, setUserName] = useState("");
   const [showSpinner, setShowSpinner] = useState(false);
-  const [roomId, setroomId] = useState("");
-
+  const pathname = usePathname();
+  const roomId = pathname.split("/").pop();
   const socket = io("http://localhost:3001");
 
   const handleJoin = () => {
-    if (userName !== "" && roomId !== "") {
+    if (userName !== "" && roomId != undefined) {
+      console.log(pathname, "pathname");
       console.log(userName, "userName", roomId, "roomId");
       socket.emit("join_room", roomId);
       setShowSpinner(true);
@@ -38,13 +40,6 @@ export default function Home() {
           type="text"
           placeholder="Username"
           onChange={(e) => setUserName(e.target.value)}
-          disabled={showSpinner}
-        />
-        <input
-          className={styles.main_input}
-          type="text"
-          placeholder="room id"
-          onChange={(e) => setroomId(e.target.value)}
           disabled={showSpinner}
         />
         <button className={styles.main_button} onClick={() => handleJoin()}>

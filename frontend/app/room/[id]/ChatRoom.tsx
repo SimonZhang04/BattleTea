@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Send, LogOut } from "lucide-react";
+import Link from "next/link";
 
 interface IMsgDataTypes {
   roomId: string | number;
@@ -35,7 +36,7 @@ export default function ChatRoom({ socket, username, roomId }: any) {
     e.preventDefault();
     if (currentMsg !== "") {
       const msgData: IMsgDataTypes = {
-        roomId,
+        roomId: roomId,
         user: username,
         msg: currentMsg,
         time:
@@ -61,13 +62,11 @@ export default function ChatRoom({ socket, username, roomId }: any) {
           <h1 className="text-2xl font-bold flex items-center">
             BattleTea Room: {roomId}
           </h1>
-          <Button
-            variant="outline"
-            className="text-amber-100"
-            onClick={() => alert("Leaving room...")}
-          >
-            <LogOut className="mr-2 h-4 w-4" /> Leave Room
-          </Button>
+          <Link href="/">
+            <Button variant="outline" className="text-amber-100">
+              <LogOut className="mr-2 h-4 w-4" /> Leave Room
+            </Button>
+          </Link>
         </div>
       </header>
 
