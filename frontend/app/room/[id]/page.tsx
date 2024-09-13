@@ -15,8 +15,6 @@ export default function Page() {
 
   const handleJoin = () => {
     if (userName !== "" && roomId != undefined) {
-      console.log(pathname, "pathname");
-      console.log(userName, "userName", roomId, "roomId");
       socket.emit("join_room", roomId);
       setShowSpinner(true);
       // You can remove this setTimeout and add your own logic

@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Send, LogOut } from "lucide-react";
 import Link from "next/link";
+import { Socket } from "socket.io-client";
 
 interface IMsgDataTypes {
   roomId: string | number;
@@ -15,13 +16,19 @@ interface IMsgDataTypes {
   time: string;
 }
 
+interface ChatRoomProps {
+  socket: Socket;
+  username: string;
+  roomId?: string;
+}
+
 type Participant = {
   id: number;
   name: string;
   avatar: string;
 };
 
-export default function ChatRoom({ socket, username, roomId }: any) {
+export default function ChatRoom({ socket, username, roomId }: ChatRoomProps) {
   const [currentMsg, setCurrentMsg] = useState("");
   const [chat, setChat] = useState<IMsgDataTypes[]>([]);
   const [participants] = useState<Participant[]>([
@@ -36,7 +43,7 @@ export default function ChatRoom({ socket, username, roomId }: any) {
     e.preventDefault();
     if (currentMsg !== "") {
       const msgData: IMsgDataTypes = {
-        roomId: roomId,
+        roomId: roomId || "Unknown room",
         user: username,
         msg: currentMsg,
         time:
@@ -44,7 +51,7 @@ export default function ChatRoom({ socket, username, roomId }: any) {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      await socket.emit("send_msg", msgData);
+      socket.emit("send_msg", msgData);
       setCurrentMsg("");
     }
   };
