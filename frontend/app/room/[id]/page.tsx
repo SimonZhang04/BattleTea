@@ -23,11 +23,15 @@ export default function Page() {
   const socket = io("http://localhost:3001");
 
   const handleJoin = () => {
-    if (username !== "" && roomId != undefined) {
-      socket.emit("join_room", roomId);
+    if (username && roomId) {
+      socket.emit("join_room", roomId, username);
       setShowChat(true);
     } else {
-      alert("Please fill in Username");
+      if (!username) {
+        alert("Please fill in Username");
+      } else if (!roomId) {
+        alert("Please provide a Room ID");
+      }
     }
   };
 

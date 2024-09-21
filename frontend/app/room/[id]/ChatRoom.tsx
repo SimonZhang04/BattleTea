@@ -31,7 +31,7 @@ type Participant = {
 export default function ChatRoom({ socket, username, roomId }: ChatRoomProps) {
   const [currentMsg, setCurrentMsg] = useState("");
   const [chat, setChat] = useState<IMsgDataTypes[]>([]);
-  const [participants] = useState<Participant[]>([
+  const [participants, setParticipants] = useState<Participant[]>([
     { id: 1, name: "Alice", avatar: "/placeholder.svg?height=32&width=32" },
     { id: 2, name: "Bob", avatar: "/placeholder.svg?height=32&width=32" },
     { id: 3, name: "Charlie", avatar: "/placeholder.svg?height=32&width=32" },
@@ -58,9 +58,23 @@ export default function ChatRoom({ socket, username, roomId }: ChatRoomProps) {
 
   useEffect(() => {
     socket.on("receive_msg", (data: IMsgDataTypes) => {
-      setChat((pre) => [...pre, data]);
+      setChat((pre: IMsgDataTypes[]) => [...pre, data]);
     });
-  }, [socket]);
+
+    socket.on("new_user_joined", (username: string) => {
+      const newParticipant = {
+        id: participants.length + 1,
+        name: username,
+        avatar: "/placeholder.svg?height=32&width=32",
+      };
+      setParticipants((pre: Participant[]) => [...pre, newParticipant]);
+    });
+
+    return () => {
+      socket.off("receive_msg");
+      socket.off("new_user_joined");
+    };
+  }, [participants.length, socket]);
 
   return (
     <div className="flex flex-col h-screen bg-amber-50">

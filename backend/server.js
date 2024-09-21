@@ -15,9 +15,11 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id)
-  socket.on('join_room', (roomId) => {
+
+  socket.on('join_room', (roomId, username) => {
     socket.join(roomId)
-    console.log(`user with id-${socket.id} joined room - ${roomId}`)
+    socket.to(roomId).emit('new_user_joined', username)
+    console.log(`user with username-${username} joined room - ${roomId}`)
   })
 
   socket.on('send_msg', (data) => {
@@ -28,6 +30,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('A user disconnected:', socket.id)
   })
+
 })
 
 const PORT = process.env.PORT || 3001
