@@ -12,3 +12,28 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Room {
+  id     Int      @id @default(autoincrement())
+  users  User[] // One-to-many relationship with User
+  events Events[] // One-to-many relationship with Events
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String
+  room     Room     @relation(fields: [roomId], references: [id], onDelete: Cascade) // Required room with cascading delete
+  roomId   Int // Non-nullable foreign key to Room
+  score    Int
+  events   Events[] // One-to-many relationship with Events
+}
+
+model Events {
+  id        Int      @id @default(autoincrement()) // Primary key
+  user      User?    @relation(fields: [userId], references: [id]) // Optional relation to User
+  userId    Int? // Nullable foreign key to User
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade) // Required room with cascading delete
+  roomId    Int // Non-nullable foreign key to Room
+  content   String // Event content
+  timestamp DateTime // Timestamp for the event
+}
